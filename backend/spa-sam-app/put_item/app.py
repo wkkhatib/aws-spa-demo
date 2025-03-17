@@ -16,7 +16,7 @@ def lambda_handler(event, context):
                     "Access-Control-Allow-Origin": "*",
                     "Content-Type": "application/json"
                 },
-                "body": json.dumps({"message": "No message provided"})
+                "body": json.dumps({"message": "No message provided!"})
             }
         
         item = {
