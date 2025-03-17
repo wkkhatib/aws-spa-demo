@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: latest
+  build:
+    commands:
+      - cd backend/spa-sam-app
+      - sam build
+  post_build:
+    commands:
+      - sam deploy --stack-name spa-sam-app --resolve-s3 --capabilities CAPABILITY_IAM
