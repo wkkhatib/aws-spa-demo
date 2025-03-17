@@ -1,45 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-# Globals:
-#   Function:
-#     Timeout: 3
-#     Tracing: Active
-#     LoggingConfig:
-#       LogFormat: JSON
-#   Api:
-#     TracingEnabled: true
-
 Resources:
-  # SpaApi:
-  #   Type: AWS::Serverless::Api
-  #   Properties:
-  #     StageName: Prod
-  #     Cors:
-  #       AllowMethods: "'POST,OPTIONS'"
-  #       AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-  #       AllowOrigin: "'*'"
-
-  PutItemFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: put_item/
-      Handler: app.lambda_handler
-      Runtime: python3.11
-      # Policies:
-      #   - DynamoDBCrudPolicy:
-      #       TableName: !Ref ItemsTable
-      # Environment:
-      #   Variables:
-      #     TABLE_NAME: !Ref ItemsTable
-      # Events:
-      #   PutItemEvent:
-      #     Type: Api 
-      #     Properties:
-      #       Path: /items
-      #       Method: post
-      #       RestApiId: !Ref SpaApi
-
   ItemsTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -47,3 +9,10 @@ Resources:
       PrimaryKey:
         Name: id
         Type: String
+
+  PutItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: put_item/
+      Handler: app.lambda_handler
+      Runtime: python3.11
