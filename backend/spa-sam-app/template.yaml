@@ -25,7 +25,7 @@ Resources:
     Properties:
       CodeUri: put_item/
       Handler: app.lambda_handler
-      Runtime: python3.10
+      Runtime: python3.11
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ItemsTable
