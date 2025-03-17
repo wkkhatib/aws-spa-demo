@@ -5,11 +5,8 @@ phases:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
-      - npm install
-  pre_build:
-    commands:
-      - echo "Navigating to frontend directory..."
       - cd frontend
+      - npm install
   build:
     commands:
       - echo "Building Angular app..."
