@@ -22,12 +22,18 @@ import { FormsModule } from '@angular/forms';
       <div class="form-container">
         <div class="search-container">
           <input [(ngModel)]="userMessage"
+                 [disabled]="loading"
                  placeholder="Enter your message"
                  class="wide-input"
                  type="text">
           <button (click)="sendMessage()" 
+                  [disabled]="loading"
                   class="search-button">
-            Send Message
+            <span *ngIf="!loading">Send Message</span>
+            <span *ngIf="loading" class="loading-text">
+              <span class="spinner"></span>
+              Sending...
+            </span>
           </button>
         </div>
       </div>
@@ -45,6 +51,7 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent {
   message: string | undefined;
   userMessage: string = '';
+  loading = false;
   apiUrl = 'https://7krvz4i3eg.execute-api.us-east-2.amazonaws.com/Prod/items';
 
   constructor(private http: HttpClient) {}
@@ -54,6 +61,8 @@ export class AppComponent {
       this.message = 'Please enter a message';
       return;
     }
+
+    this.loading = true;
 
     const headers = {
       'Content-Type': 'application/json',
@@ -68,10 +77,12 @@ export class AppComponent {
       response => {
         this.message = response.message;
         this.userMessage = ''; // Clear the input after successful send
+        this.loading = false;
       },
       error => {
         console.error('Error sending message:', error);
         this.message = 'Error sending message';
+        this.loading = false;
       }
     );
   }
