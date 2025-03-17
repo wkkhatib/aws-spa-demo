@@ -11,14 +11,14 @@ Globals:
     TracingEnabled: true
 
 Resources:
-  SpaApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: Prod
-      Cors:
-        AllowMethods: "'POST,OPTIONS'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
-        AllowOrigin: "'*'"
+  # SpaApi:
+  #   Type: AWS::Serverless::Api
+  #   Properties:
+  #     StageName: Prod
+  #     Cors:
+  #       AllowMethods: "'POST,OPTIONS'"
+  #       AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+  #       AllowOrigin: "'*'"
 
   PutItemFunction:
     Type: AWS::Serverless::Function
@@ -32,13 +32,13 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !Ref ItemsTable
-      Events:
-        PutItemEvent:
-          Type: Api 
-          Properties:
-            Path: /items
-            Method: post
-            RestApiId: !Ref SpaApi
+      # Events:
+      #   PutItemEvent:
+      #     Type: Api 
+      #     Properties:
+      #       Path: /items
+      #       Method: post
+      #       RestApiId: !Ref SpaApi
 
   ItemsTable:
     Type: AWS::Serverless::SimpleTable
