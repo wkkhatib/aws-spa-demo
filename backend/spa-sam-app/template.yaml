@@ -26,19 +26,19 @@ Resources:
       CodeUri: put_item/
       Handler: app.lambda_handler
       Runtime: python3.13
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ItemsTable
+      # Policies:
+      #   - DynamoDBCrudPolicy:
+      #       TableName: !Ref ItemsTable
       Environment:
         Variables:
           TABLE_NAME: !Ref ItemsTable
-      # Events:
-      #   PutItemEvent:
-      #     Type: Api 
-      #     Properties:
-      #       Path: /items
-      #       Method: post
-      #       RestApiId: !Ref SpaApi
+      Events:
+        PutItemEvent:
+          Type: Api 
+          Properties:
+            Path: /items
+            Method: post
+            RestApiId: !Ref SpaApi
 
   ItemsTable:
     Type: AWS::Serverless::SimpleTable
