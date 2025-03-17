@@ -16,7 +16,7 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'POST,OPTIONS'"
+        AllowMethods: "'POST,GET,OPTIONS'"
         AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
         AllowOrigin: "'*'"
 
@@ -38,6 +38,26 @@ Resources:
           Properties:
             Path: /items
             Method: post
+            RestApiId: !Ref SpaApi
+
+  GetItemsFunction:     
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: get_items/    
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemsTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ItemsTable
+      Events:
+        GetItemsEvent:
+          Type: Api
+          Properties:
+            Path: /items
+            Method: get
             RestApiId: !Ref SpaApi
 
   ItemsTable:

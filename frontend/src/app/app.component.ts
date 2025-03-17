@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // app.component.ts
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, FormsModule],
+  imports: [NgIf, NgFor, FormsModule],
   template: `
     <div class="app-container">
       <div class="header-container">
@@ -38,9 +38,28 @@ import { FormsModule } from '@angular/forms';
         </div>
       </div>
 
+      <div class="button-container">
+        <button (click)="getMessages()" 
+                [disabled]="loadingMessages"
+                class="get-messages-button">
+          <span *ngIf="!loadingMessages">Get All Messages</span>
+          <span *ngIf="loadingMessages" class="loading-text">
+            <span class="spinner"></span>
+            Loading...
+          </span>
+        </button>
+      </div>
+
       <div class="result-container" *ngIf="message">
         <div class="result">
           {{ message }}
+        </div>
+      </div>
+
+      <div class="messages-list" *ngIf="messages.length > 0">
+        <h2>Stored Messages</h2>
+        <div class="message-item" *ngFor="let msg of messages">
+          {{ msg.message }}
         </div>
       </div>
     </div>
@@ -52,6 +71,8 @@ export class AppComponent {
   message: string | undefined;
   userMessage: string = '';
   loading = false;
+  loadingMessages = false;
+  messages: any[] = [];
   apiUrl = 'https://7krvz4i3eg.execute-api.us-east-2.amazonaws.com/Prod/items';
 
   constructor(private http: HttpClient) {}
@@ -83,6 +104,19 @@ export class AppComponent {
         console.error('Error sending message:', error);
         this.message = 'Error sending message';
         this.loading = false;
+      }
+    );
+  }
+  getMessages() {
+    this.loadingMessages = true;
+    this.http.get<any[]>(this.apiUrl).subscribe(
+      response => {
+        this.messages = response;
+        this.loadingMessages = false;
+      },
+      error => {
+        console.error('Error fetching messages:', error);
+        this.loadingMessages = false;
       }
     );
   }
