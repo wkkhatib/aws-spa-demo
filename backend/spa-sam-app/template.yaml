@@ -22,7 +22,6 @@ Resources:
 
   PutItemFunction:
     Type: AWS::Serverless::Function
-    DependsOn: SpaApi
     Properties:
       CodeUri: put_item/
       Handler: app.lambda_handler
@@ -33,13 +32,13 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !Ref ItemsTable
-      Events:
-        PutItemEvent:
-          Type: Api 
-          Properties:
-            Path: /items
-            Method: post
-            RestApiId: !Ref SpaApi
+      # Events:
+      #   PutItemEvent:
+      #     Type: Api 
+      #     Properties:
+      #       Path: /items
+      #       Method: post
+      #       RestApiId: !Ref SpaApi
 
   ItemsTable:
     Type: AWS::Serverless::SimpleTable
