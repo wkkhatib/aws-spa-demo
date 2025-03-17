@@ -1,50 +1,55 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf], 
+  imports: [NgIf, FormsModule], 
   template: `
     <h1>SPA with AWS</h1>
-    <button (click)="fetchMessage()">Get Message</button>
+    <div>
+      <input [(ngModel)]="userMessage" 
+             placeholder="Enter your message"
+             type="text">
+      <button (click)="sendMessage()">Send Message</button>
+    </div>
     <p *ngIf="message">{{ message }}</p>
   `,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   message: string | undefined;
-  apiUrl = 'https://your-api-id.execute-api.us-east-1.amazonaws.com/prod/messages';
+  userMessage: string = '';
+  apiUrl = 'https://7krvz4i3eg.execute-api.us-east-2.amazonaws.com/Prod/items';
 
   constructor(private http: HttpClient) {}
 
-  fetchMessage() {
+  sendMessage() {
+    if (!this.userMessage.trim()) {
+      this.message = 'Please enter a message';
+      return;
+    }
+
     const headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
-    this.http.get<{ message: string }>(this.apiUrl).subscribe(response => {
-      this.message = response.message;
-    },
-    error => {
-      console.error('Error fetching message:', error);
-      this.message = 'Error fetching message';
-    }
-  );
+    
+    const body = {
+      message: this.userMessage
+    };
+
+    this.http.post<{ message: string }>(this.apiUrl, body, { headers }).subscribe(
+      response => {
+        this.message = response.message;
+        this.userMessage = ''; // Clear the input after successful send
+      },
+      error => {
+        console.error('Error sending message:', error);
+        this.message = 'Error sending message';
+      }
+    );
   }
 }
-
-
-// import { Component } from '@angular/core';
-// import { RouterOutlet } from '@angular/router';
-
-// @Component({
-//   selector: 'app-root',
-//   imports: [RouterOutlet],
-//   templateUrl: './app.component.html',
-//   styleUrl: './app.component.css'
-// })
-// export class AppComponent {
-//   title = 'aws-spa-demo';
-// }
