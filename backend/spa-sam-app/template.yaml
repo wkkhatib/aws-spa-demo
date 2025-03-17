@@ -26,6 +26,9 @@ Resources:
       CodeUri: put_item/
       Handler: app.lambda_handler
       Runtime: python3.11
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ItemsTable
@@ -46,6 +49,9 @@ Resources:
       CodeUri: get_items/    
       Handler: app.lambda_handler
       Runtime: python3.11
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ItemsTable
