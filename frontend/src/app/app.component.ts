@@ -3,22 +3,45 @@ import { HttpClient } from '@angular/common/http';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+// app.component.ts
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, FormsModule], 
+  imports: [NgIf, FormsModule],
   template: `
-    <h1>SPA with AWS</h1>
-    <div>
-      <input [(ngModel)]="userMessage" 
-             placeholder="Enter your message"
-             type="text">
-      <button (click)="sendMessage()">Send Message</button>
+    <div class="app-container">
+      <div class="header-container">
+        <h1 class="main-header">
+          <span class="highlight">SPA</span> with AWS
+        </h1>
+        <p class="description">
+          Enter your message below to store it through a serverless API
+        </p>
+      </div>
+
+      <div class="form-container">
+        <div class="search-container">
+          <input [(ngModel)]="userMessage"
+                 placeholder="Enter your message"
+                 class="wide-input"
+                 type="text">
+          <button (click)="sendMessage()" 
+                  class="search-button">
+            Send Message
+          </button>
+        </div>
+      </div>
+
+      <div class="result-container" *ngIf="message">
+        <div class="result">
+          {{ message }}
+        </div>
+      </div>
     </div>
-    <p *ngIf="message">{{ message }}</p>
   `,
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   message: string | undefined;
   userMessage: string = '';
