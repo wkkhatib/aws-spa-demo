@@ -5,16 +5,19 @@ phases:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
-      - cd frontend
       - npm install
+  pre_build:
+    commands:
+      - echo "Navigating to frontend directory..."
+      - cd frontend
   build:
     commands:
       - echo "Building Angular app..."
-      - npm run build -- --output-path=frontend/dist
+      - npm run build -- --output-path=dist
   post_build:
     commands:
       - echo "Deploying to S3..."
-      - aws s3 sync frontend/dist/ s3://spa-deploy-bucket --delete
+      - aws s3 sync dist/ s3://spa-deploy-bucket --delete
       - echo "Invalidating CloudFront cache..."
       - aws cloudfront create-invalidation --distribution-id E3VD2ZTN4D65MQ --paths "/*"
 artifacts:
