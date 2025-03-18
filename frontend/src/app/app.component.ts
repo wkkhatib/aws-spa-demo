@@ -73,7 +73,7 @@ export class AppComponent {
   loading = false;
   loadingMessages = false;
   messages: any[] = [];
-  apiUrl = 'https://7krvz4i3eg.execute-api.us-east-2.amazonaws.com/Prod/items';
+  apiUrl = 'https://vqj0dp8lc0.execute-api.us-east-2.amazonaws.com/Prod/items';
 
   constructor(private http: HttpClient) {}
 
