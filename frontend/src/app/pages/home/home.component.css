@@ -1,0 +1,49 @@
+.home-container {
+    padding: 20px;
+    text-align: center;
+  }
+
+  h2 {
+    color: #007bff;
+    margin-bottom: 40px;
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+  }
+
+  .logo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .logo {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+  }
+
+  .aws-logo {
+    max-width: 200px; /* adjust as needed */
+    height: auto;
+  }
+
+  h3 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+  }
+
+  .angular-logo {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.2));
+  }
+
+  .aws-logo {
+    filter: drop-shadow(0 0 8px rgba(255, 153, 0, 0.2));
+  }
