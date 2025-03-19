@@ -65,7 +65,7 @@ export class MessagesComponent {
   loading = false;
   loadingMessages = false;
   messages: any[] = [];
-  apiUrl = 'https://vqj0dp8lc0.execute-api.us-east-2.amazonaws.com/Prod/items';
+  apiUrl = process.env['API_URL'] || 'https://vqj0dp8lc0.execute-api.us-east-2.amazonaws.com/Prod/items';
 
   constructor(private http: HttpClient) {}
 

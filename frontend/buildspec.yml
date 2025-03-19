@@ -10,6 +10,9 @@ phases:
   build:
     commands:
       - echo "Building Angular app..."
+      - if [ "${API_URL}" != "" ]; then
+          sed -i "s|https://.*/items|${API_URL}/items|g" src/app/pages/messages/messages.component.ts;
+        fi
       - npm run build -- --output-path=dist
   post_build:
     commands:
