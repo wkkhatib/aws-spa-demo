@@ -16,5 +16,13 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/about/about.component')
       .then(m => m.AboutComponent)
   },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { 
+    path: '', 
+    redirectTo: '/home', 
+    pathMatch: 'full' 
+  },
+  {
+    path: '**',
+    redirectTo: '/home'
+  }
 ];
