@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  ChatWebSocketAPI:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: ChatWebSocketAPI
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+
+  ConnectionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AWS::StackName}-connections
+      AttributeDefinitions:
+        - AttributeName: connectionId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: connectionId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  ConnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/
+      Handler: connect.handler
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+          API_GATEWAY_ENDPOINT: !Sub https://${ChatWebSocketAPI}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+      Events:
+        ConnectRoute:
+          Type: WebSocket
+          Properties:
+            ApiId: !Ref ChatWebSocketAPI
+            Route: $connect
+
+  DisconnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/
+      Handler: disconnect.handler
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+      Events:
+        DisconnectRoute:
+          Type: WebSocket
+          Properties:
+            ApiId: !Ref ChatWebSocketAPI
+            Route: $disconnect
+
+  MessageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/
+      Handler: message.handler
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+          API_GATEWAY_ENDPOINT: !Sub https://${ChatWebSocketAPI}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
+      AutoPublishAlias: prod
+      DeploymentPreference:
+        Type: AllAtOnce
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'execute-api:ManageConnections'
+              Resource: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ChatWebSocketAPI}/*'
+      Events:
+        MessageRoute:
+          Type: WebSocket
+          Properties:
+            ApiId: !Ref ChatWebSocketAPI
+            Route: sendmessage
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+    Description: API Gateway stage name
+
+Outputs:
+  WebSocketURL:
+    Description: "WebSocket URL for the chat application"
+    Value: !Sub wss://${ChatWebSocketAPI}.execute-api.${AWS::Region}.amazonaws.com/${Stage}
