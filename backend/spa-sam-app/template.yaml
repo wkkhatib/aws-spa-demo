@@ -73,3 +73,8 @@ Resources:
       PrimaryKey:
         Name: id
         Type: String
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${SpaApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
