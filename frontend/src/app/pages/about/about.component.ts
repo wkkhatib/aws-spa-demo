@@ -13,7 +13,7 @@ import { VERSION } from '@angular/core';
     <p *ngIf="timestamp">Current Time: {{ timestamp }}</p>
     <div class="about-container">
       <div class="content">
-        <p>This demo application demonstrates a modern web architecture using:</p>
+        <p>This demo application demonstrates a modern web architecture using</p>
         <div class="tech-stack">
           <div class="tech-item">
             <h3>Frontend</h3>
