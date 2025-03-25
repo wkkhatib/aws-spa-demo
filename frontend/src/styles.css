@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #121212;
+    color: #f0f0f0;
+    font-family: sans-serif;
+}
+
+button {
+    background-color: #0e8d00;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #00bcd4;
+}
+
+.main-header .highlight {
+    color: #0e8d00 !important;
+}
+
+.logo-container {
+    background-color: white;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.demo-nav a.active {
+    background: #0e8d00 !important;
+}
+
+a, h1 , h2, .description {
+    color: #ccc !important;
+}
+
+.content {
+    background: #121212 !important;
+}
+
+.messages-list {
+    color: black;
+    font-family: 'Gill Sans';
+    font-weight: 500;
+    font-size: 20px;
+}

@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf, CommonModule } from '@angular/common';
 import { VERSION } from '@angular/core';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
-  template: `
+  imports: [NgIf, CommonModule],
+  template: `    
+    <button (click)="toggleTime()">
+      {{ timestamp ? 'Hide Time' : 'Show Time' }}
+    </button>
+    <p *ngIf="timestamp">Current Time: {{ timestamp }}</p>
     <div class="about-container">
       <div class="content">
         <p>This demo application demonstrates a modern web architecture using:</p>
@@ -42,4 +46,14 @@ import { VERSION } from '@angular/core';
 })
 export class AboutComponent {
   version = VERSION.major;
+
+  timestamp: string | undefined;
+  toggleTime() {
+    if (this.timestamp) {
+      this.timestamp = undefined;
+    }
+    else {
+      this.timestamp = new Date().toLocaleString();
+    }
+  }
 }
