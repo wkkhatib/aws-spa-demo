@@ -72,25 +72,26 @@ To run this project and its CI/CD pipelines, you'll need:
 ⚠️ **Important:** While this repository focuses on the application code, the CI/CD infrastructure, deployment resources (e.g., S3 bucket, CloudFront distribution), and associated IAM policies must be set up separately. These resources can be created manually or defined using Infrastructure as Code (IaC) such as AWS CloudFormation or Terraform.
 
 You must:
-- Create an S3 bucket to host the Angular SPA
-- Create a CloudFront distribution that serves content from the S3 bucket
-- Configure the S3 bucket policy to allow access from the CloudFront origin access identity (OAI) or origin access control (OAC)
+1. Create an S3 bucket to host the Angular SPA
+2. Create a CloudFront distribution that serves content from the S3 bucket
+3. Configure the S3 bucket policy to allow access from the CloudFront origin access identity (OAI) or origin access control (OAC)
 
 In addition, for the CI/CD infrastructure:
-- Create two AWS CodePipeline pipelines:
-  - One for changes to the frontend/ directory
-  - One for changes to the backend/ directory
-- Create two AWS CodeBuild projects (frontend and backend), each configured to use the matching *buildspec.yml* file
-- Set appropriate IAM policies for each CodeBuild project: 
+
+4. Create two AWS CodePipeline pipelines:
+    - One for changes to the frontend/ directory
+    - One for changes to the backend/ directory
+5. Create two AWS CodeBuild projects (frontend and backend), each configured to use the matching *buildspec.yml* file
+6. Set appropriate IAM policies for each CodeBuild project: 
     - **Frontend CodeBuild project**:
         - *PutObject*, *GetObject*, *DeleteObject*, and *ListBucket* permissions to the target S3 deploy bucket
         - Permissions to invalidate CloudFront cache
     - **Backend CodeBuild project**:
         - Permissions to deploy all resources in the SAM template
-- For the frontend CodeBuild project, define the following environment variables:
-  - **DISTRIBUTION_ID** (CloudFront Distribution ID)
-  - **DEPLOY_BUCKET** (S3 bucket for hosting the SPA)
-  - **API_URL** (API Gateway invoke URL for the deployed backend)
+7. For the frontend CodeBuild project, define the following environment variables:
+    - **DISTRIBUTION_ID** (CloudFront Distribution ID)
+    - **DEPLOY_BUCKET** (S3 bucket for hosting the SPA)
+    - **API_URL** (API Gateway invoke URL for the deployed backend)
 
 ### Run frontend locally:
 ```bash
