@@ -1,3 +1,43 @@
+.connection-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.connection-status.connected {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+.connection-status.disconnected {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.connected .status-indicator {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .description {
     font-weight: 500;
     font-size: 1.125rem;
@@ -34,6 +74,11 @@
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   }
+
+  .wide-input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
   
   .search-button {
     width: 100%;
@@ -48,8 +93,13 @@
     transition: background-color 0.3s ease;
   }
   
-  .search-button:hover {
+  .search-button:hover:not(:disabled) {
     background-color: #1d4ed8;
+  }
+
+  .search-button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
   }
   
   .result-container {
@@ -68,10 +118,20 @@
     color: #1a202c;
     font-weight: 500;
   }
+
+  .result.error {
+    background-color: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+  }
   
   .button-container {
     margin: 20px 0;
     text-align: center;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .get-messages-button {
@@ -85,13 +145,36 @@
     transition: background-color 0.3s ease;
   }
   
-  .get-messages-button:hover {
+  .get-messages-button:hover:not(:disabled) {
     background-color: #059669;
   }
   
   .get-messages-button:disabled {
     background-color: #6ee7b7;
     cursor: not-allowed;
+  }
+
+  .connection-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .connection-button:hover {
+    background-color: #2563eb;
+  }
+
+  .disconnect-button {
+    background-color: #ef4444;
+  }
+
+  .disconnect-button:hover {
+    background-color: #dc2626;
   }
   
   .loading-text {
@@ -135,5 +218,23 @@
     padding: 15px;
     margin-bottom: 10px;
     word-wrap: break-word;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .message-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .message-content {
+    font-size: 16px;
+    color: #1a202c;
+    margin-bottom: 8px;
+  }
+
+  .message-meta {
+    font-size: 12px;
+    color: #6b7280;
+    font-style: italic;
   }
   

@@ -3,6 +3,7 @@ import boto3
 import uuid
 import os
 import logging
+from datetime import datetime
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -28,7 +29,8 @@ def lambda_handler(event, context):
         
         item = {
             'id': str(uuid.uuid4()),
-            'message': body['message']
+            'message': body['message'],
+            'timestamp': datetime.utcnow().isoformat()
         }
         logger.info("Saving item to DynamoDB: %s", item)  
         table.put_item(Item=item)
